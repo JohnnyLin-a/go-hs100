@@ -2,7 +2,6 @@ package hs100
 
 import (
 	"encoding/json"
-	"github.com/pkg/errors"
 )
 
 const turnOnCommand = `{"system":{"set_relay_state":{"state":1}}}`
@@ -29,14 +28,14 @@ type CommandSender interface {
 func (hs100 *Hs100) TurnOn() error {
 	resp, err := hs100.commandSender.SendCommand(hs100.Address, turnOnCommand)
 	if err != nil {
-		return errors.Wrap(err, "error on sending turn on command for device")
+		return err
 	}
 
 	r, err := parseSetRelayResponse(resp)
 	if err != nil {
-		return errors.Wrap(err, "Could not parse response from device")
+		return err
 	} else if r.errorOccurred() {
-		return errors.New("got non zero exit code from device")
+		return err
 	}
 
 	return nil
@@ -63,14 +62,14 @@ type setRelayResponse struct {
 func (hs100 *Hs100) TurnOff() error {
 	resp, err := hs100.commandSender.SendCommand(hs100.Address, turnOffCommand)
 	if err != nil {
-		return errors.Wrap(err, "error on sending turn on command for device")
+		return err
 	}
 
 	r, err := parseSetRelayResponse(resp)
 	if err != nil {
-		return errors.Wrap(err, "Could not parse response from device")
+		return err
 	} else if r.errorOccurred() {
-		return errors.New("got non zero exit code from device")
+		return err
 	}
 
 	return nil
@@ -82,7 +81,7 @@ func (hs100 *Hs100) IsOn() (bool, error) {
 		return false, err
 	}
 
-	err, on := isOn(resp)
+	on, err := isOn(resp)
 	if err != nil {
 		return false, err
 	}
@@ -90,11 +89,11 @@ func (hs100 *Hs100) IsOn() (bool, error) {
 	return on, nil
 }
 
-func isOn(s string) (error, bool) {
+func isOn(s string) (bool, error) {
 	var r response
 	err := json.Unmarshal([]byte(s), &r)
 	on := r.System.SystemInfo.RelayState == 1
-	return err, on
+	return on, err
 }
 
 type response struct {
@@ -113,7 +112,7 @@ func (hs100 *Hs100) GetName() (string, error) {
 		return "", err
 	}
 
-	err, name := name(resp)
+	name, err := name(resp)
 	if err != nil {
 		return "", err
 	}
@@ -121,17 +120,17 @@ func (hs100 *Hs100) GetName() (string, error) {
 	return name, nil
 }
 
-func name(resp string) (error, string) {
+func name(resp string) (string, error) {
 	var r response
 	err := json.Unmarshal([]byte(resp), &r)
 	name := r.System.SystemInfo.Alias
-	return err, name
+	return name, err
 }
 
 func (hs100 *Hs100) GetCurrentPowerConsumption() (PowerConsumption, error) {
 	resp, err := hs100.commandSender.SendCommand(hs100.Address, currentPowerConsumptionCommand)
 	if err != nil {
-		return PowerConsumption{}, errors.Wrap(err, "Could not read from hs100 device")
+		return PowerConsumption{}, err
 	}
 	return powerConsumption(resp)
 }
@@ -146,7 +145,7 @@ func powerConsumption(resp string) (PowerConsumption, error) {
 	var r powerConsumptionResponse
 	err := json.Unmarshal([]byte(resp), &r)
 	if err != nil {
-		return PowerConsumption{}, errors.Wrap(err, "Cannot parse response")
+		return PowerConsumption{}, err
 	} else {
 		return r.toPowerConsumption(), nil
 	}

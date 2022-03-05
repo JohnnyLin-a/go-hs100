@@ -2,25 +2,12 @@
 
 Yet another tp-link HS100 library for golang
 
-## Badges
-
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/a1651904e33541b18a0b582106bf0afb)](https://www.codacy.com/gh/jaedle/golang-tplink-hs100/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=jaedle/golang-tplink-hs100&amp;utm_campaign=Badge_Grade)
-[![Tests](https://github.com/jaedle/golang-tplink-hs100/actions/workflows/ci.yml/badge.svg)](https://github.com/jaedle/golang-tplink-hs100/blob/master/.github/workflows/ci.yml)
-[![Coverage Status](https://coveralls.io/repos/github/jaedle/golang-tplink-hs100/badge.svg?branch=master)](https://coveralls.io/github/jaedle/golang-tplink-hs100?branch=master)
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=golang-tplink-hs100&metric=code_smells)](https://sonarcloud.io/dashboard?id=golang-tplink-hs100)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=golang-tplink-hs100&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=golang-tplink-hs100)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=golang-tplink-hs100&metric=sqale_index)](https://sonarcloud.io/dashboard?id=golang-tplink-hs100)
-
-## Supported Go versions:
-
-- 1.16
-- 1.17
 
 ## Usage
 
 Please make sure to have go-modules enabled.
 
-Run within your go project folder: `go get -u github.com/jaedle/golang-tplink-hs100`
+Run within your go project folder: `go get -u github.com/johnnylin-a/golang-tplink-hs100`
 
 ### Usage example
 
@@ -102,19 +89,13 @@ func main() {
 
 ## Development
 
-### Prerequisites
-
-1.  go-task 
-1.  docker
-
 ## Project structure
 
 This project tries to stick as close as possible to the [golang standard project layout](https://github.com/golang-standards/project-layout)
 
 The public parts for this library are located in `/pkg`.
 
-All files in `/cmd` are for demo purposes only.
 
 ## License
 
-[MIT](https://github.com/jaedle/golang-tplink-hs100/blob/master/LICENSE)
+[MIT](LICENSE)

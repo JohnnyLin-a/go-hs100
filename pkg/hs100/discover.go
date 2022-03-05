@@ -1,7 +1,6 @@
 package hs100
 
 import (
-	"github.com/pkg/errors"
 	"net"
 	"sync"
 )
@@ -49,7 +48,7 @@ type discoverResult struct {
 func getIpAddresses(subnet string) ([]string, error) {
 	ip, ipnet, err := net.ParseCIDR(subnet)
 	if err != nil {
-		return nil, errors.Wrap(err, "invalid subnet specfied")
+		return nil, err
 	}
 
 	var ips []string
